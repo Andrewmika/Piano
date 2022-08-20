@@ -32,7 +32,7 @@ public typealias 🎹 = Piano
 /// Compose a symphony of sounds and vibrations using Taptic Engine
 @available(iOS 10.0, *)
 public class Piano {
-    
+    public static var autoConfigAudioSession: Bool = true
     /// Internal instance of Piano to manage shared feedback generators and symphony trackers
     private static let `default` = Piano()
     
@@ -104,8 +104,10 @@ public class Piano {
             return
         }
         do {
-            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
-            try AVAudioSession.sharedInstance().setActive(true)
+            if Piano.autoConfigAudioSession {
+                try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
+                try AVAudioSession.sharedInstance().setActive(true)
+            }
             player = try AVAudioPlayer(data: asset.data, fileTypeHint: nil)
             if let player = player {
                 player.play()
@@ -134,8 +136,10 @@ public class Piano {
             return
         }
         do {
-            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
-            try AVAudioSession.sharedInstance().setActive(true)
+            if Piano.autoConfigAudioSession {
+                try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
+                try AVAudioSession.sharedInstance().setActive(true)
+            }
             player = try AVAudioPlayer(contentsOf: url)
             if let player = player {
                 player.play()
@@ -159,8 +163,10 @@ public class Piano {
     ///   - completion: completion handler
     private func playAudio(from url: URL, completion: (() -> Void)?) {
         do {
-            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
-            try AVAudioSession.sharedInstance().setActive(true)
+            if Piano.autoConfigAudioSession {
+                try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
+                try AVAudioSession.sharedInstance().setActive(true)
+            }
             player = try AVAudioPlayer(contentsOf: url)
             if let player = player {
                 player.play()
